@@ -55,3 +55,18 @@ if ticker:
         st.markdown("### 📊 Volatility Snapshot")
         for key, value in result.items():
             st.write(f"**{key}:** {value}")
+            if ticker:
+    result = get_iv_rv_ratio(ticker.upper())
+    if "error" in result:
+        st.error(result["error"])
+    else:
+        st.markdown("### 📊 Volatility Snapshot")
+        st.markdown(f"**Current Price:** {result['Current Price']}")
+        st.markdown(f"**IV (ATM):** {result['IV (ATM)']}")
+        st.markdown(f"**RV (6mo):** {result['RV (6mo)']}")
+        st.markdown(f"**IV/RV Ratio:** {result['IV/RV Ratio']}")
+        
+        st.markdown("---")
+        st.markdown("**Bias Engine Output:**")
+        st.markdown(f":{result['SignalColor']}_circle: {result['Bias']}")
+
