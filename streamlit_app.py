@@ -1,5 +1,3 @@
-# FULL STREAMLIT APP — Optic Prophet: Advanced VSRP Scanner
-
 import streamlit as st
 import yfinance as yf
 import numpy as np
@@ -7,7 +5,7 @@ import pandas as pd
 
 st.set_page_config(page_title="Optic Prophet: VSRP Scanner", page_icon="🧠")
 st.title("🧠 Optic Prophet: VSRP Scanner")
-st.markdown("Scan implied volatility vs. realized volatility, expected moves, and sentiment indicators.")
+st.subheader("Your AI-Powered Volatility Skew Reaper")
 st.markdown("---")
 
 ticker = st.text_input("Enter Ticker (e.g. AAPL, TSLA, NVDA)")
@@ -15,11 +13,12 @@ ticker = st.text_input("Enter Ticker (e.g. AAPL, TSLA, NVDA)")
 def interpret_bias(ratio):
     if ratio is None:
         return ("⚠️ Skew Undetectable", "gray")
-    if ratio < 0.7:
+    elif ratio < 0.7:
         return ("📉 Cheap Premium — Buy Zone", "green")
     elif ratio > 1.3:
         return ("🔥 High Skew — Sell Zone", "red")
-    return ("🟡 Neutral Skew", "yellow")
+    else:
+        return ("🟡 Neutral Skew", "yellow")
 
 def expected_move(price, iv, days):
     return round(price * iv * np.sqrt(days / 365), 2)
@@ -84,18 +83,18 @@ if ticker:
         st.write(f"**IV (ATM):** {result['IV']}")
         st.write(f"**RV (6mo):** {result['RV']}")
         st.write(f"**IV/RV Ratio:** {result['IV/RV Ratio']}")
-
         st.markdown("---")
+
         st.markdown("### 🔭 Expected Move Projections")
         st.write(f"1 Day: ±${result['Expected Move (1D)']}")
         st.write(f"1 Week: ±${result['Expected Move (1W)']}")
         st.write(f"1 Month: ±${result['Expected Move (1M)']}")
-
         st.markdown("---")
+
         st.markdown("### 🧠 Bias Engine")
         st.markdown(f":{result['Color']}_circle: {result['Bias']}")
-
         st.markdown("---")
+
         st.markdown("### 📈 Option Sentiment (ATM Call)")
         st.write(f"Volume: {result['Volume (ATM)']}")
         st.write(f"Open Interest: {result['OI (ATM)']}")
